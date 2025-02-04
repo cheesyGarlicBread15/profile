@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profile/texts/profile_field.dart';
 
 class ProfileScreen extends StatelessWidget {
   final Map<String, dynamic> data;
@@ -6,13 +7,13 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double appBarHeight = 170;
-    final double profileHeight = 140;
-    final double top = appBarHeight - (profileHeight / 2);
+    const double appBarHeight = 170;
+    const double profileHeight = 140;
+    const double top = appBarHeight - (profileHeight / 2);
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(appBarHeight),
+        preferredSize: const Size.fromHeight(appBarHeight),
         child: AppBar(
           iconTheme: const IconThemeData(color: Colors.white),
           flexibleSpace: Stack(
@@ -73,9 +74,9 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 6)),
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     radius: profileHeight / 2,
-                    backgroundImage: const AssetImage('assets/images/prof.jpg'),
+                    backgroundImage: AssetImage('assets/images/prof.jpg'),
                   ),
                 ),
               ),
@@ -90,15 +91,96 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Fullname: ${data['fullname'] ?? 'N/A'}'),
-            Text('Blood Type: ${data['blood type'] ?? 'N/A'}'),
-            Text('Donations: ${data['donations'] ?? 'N/A'}'),
-            Text('Age: ${data['age'] ?? 'N/A'}'),
-            Text('Last Donation: ${data['last donation'] ?? 'N/A'}'),
-            Text('Address: ${data['address'] ?? 'N/A'}'),
-            Text('Phone: ${data['phone'] ?? 'N/A'}'),
-            Text('Email: ${data['email'] ?? 'N/A'}'),
-            Text('Rank: ${data['rank'] ?? 'N/A'}'),
+            // 1st section
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProfileField(
+                        fieldName: 'Full Name:', data: data['fullname']),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ProfileField(
+                        fieldName: 'Blood Type:', data: data['blood type']),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ProfileField(
+                        fieldName: 'Age:', data: data['age'].toString()),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProfileField(
+                        fieldName: 'Donations:',
+                        data: data['donations'].toString()),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ProfileField(
+                        fieldName: 'Last Donation:',
+                        data: data['last donation']),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const Divider(
+              color: Colors.black12,
+              thickness: 1,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            // 2nd section
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ProfileField(fieldName: 'Address:', data: data['address'])
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ProfileField(fieldName: 'Phone:', data: data['phone']),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ProfileField(fieldName: 'Email:', data: data['email'])
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const Divider(
+              color: Colors.black12,
+              thickness: 1,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            // 3rd section
+            const Text(
+              'Your Current Rank',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Text(data['rank']),
           ],
         ),
       ),
