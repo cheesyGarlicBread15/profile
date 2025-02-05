@@ -11,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
     const double profileHeight = 140;
     const double top = appBarHeight - (profileHeight / 2);
     String medal = 'assets/images/medals/';
+    String profile = 'assets/images/profiles/${data['profile']}';
 
     switch (data['rank']) {
       case 'Donor Ambassador':
@@ -93,9 +94,9 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 6)),
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: profileHeight / 2,
-                    backgroundImage: AssetImage('assets/images/prof.jpg'),
+                    backgroundImage: Image.asset(profile).image,
                   ),
                 ),
               ),

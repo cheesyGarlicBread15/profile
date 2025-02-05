@@ -7,6 +7,7 @@ class ProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: stylize buttons
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: ElevatedButton(
