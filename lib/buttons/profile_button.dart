@@ -7,12 +7,29 @@ class ProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: stylize buttons
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
+      width: double.infinity,
       child: ElevatedButton(
-          onPressed: onPressed,
-          child: Text(text)),
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          backgroundColor: const Color(0xFFFF5757),
+          foregroundColor: Colors.white,
+          elevation: 5,
+          shadowColor: Colors.black45,
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }
