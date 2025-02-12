@@ -5,21 +5,29 @@ import 'package:profile/screens/profile_screen.dart';
 class AppRoutes {
   static Route? onGenerateRoute(RouteSettings setting) {
     final args = setting.arguments;
+
     switch (setting.name) {
       case '/':
-        return MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        );
+        return MaterialPageRoute(builder: (context) => HomeScreen());
+
       case '/profile':
-        return MaterialPageRoute(
-          builder: (context) => ProfileScreen(data: args as Map<String, dynamic>),
-        );
+        if (args is Map<String, dynamic>) {
+          return MaterialPageRoute(
+            builder: (context) => ProfileScreen(data: args),
+          );
+        }
+        return _errorRoute(setting.name);
+
       default:
-        return MaterialPageRoute(builder: (context) => Scaffold(
-          body: Center(
-            child: Text('No route defined for ${setting.name}'),
-          ),
-        ));
+        return _errorRoute(setting.name);
     }
+  }
+
+  static Route _errorRoute(String? name) {
+    return MaterialPageRoute(
+      builder: (context) => Scaffold(
+        body: Center(child: Text('No route defined for $name')),
+      ),
+    );
   }
 }

@@ -11,13 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Profile',
       initialRoute: '/',
       onGenerateRoute: AppRoutes.onGenerateRoute,
-      routes: {
-        '/home': (context) => HomeScreen()
-      },
     );
   }
 }
