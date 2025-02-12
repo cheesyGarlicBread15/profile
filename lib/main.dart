@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:profile/routes.dart';
+import 'package:profile/screens/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,10 +11,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Profile',
       initialRoute: '/',
       onGenerateRoute: AppRoutes.onGenerateRoute,
+      routes: {
+        '/home': (context) => HomeScreen()
+      },
     );
   }
 }

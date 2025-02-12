@@ -77,6 +77,40 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profiles'),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Profiles',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: Text('Home'),
+              onTap: () => Navigator.pushNamed(context, '/home'),
+            ),
+            ...profiles.map((profile) {
+              return ListTile(
+                leading: const Icon(Icons.person),
+                title: Text(profile['nickname']),
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile',
+                      arguments: profile);
+                },
+              );
+            }),
+          ],
+        ),
+      ),
       body: Center(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 50),
