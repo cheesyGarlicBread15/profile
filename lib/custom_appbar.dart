@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:profile/profiles.dart';
+import 'package:profile/models/profile_model.dart';
+import 'package:profile/repositories/profile_repository.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -10,7 +11,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title),
-      backgroundColor: const Color(0xFFFF5757),
       leading: Builder(
         builder: (context) {
           return IconButton(
@@ -26,8 +26,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
+
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  late Future<List<ProfileModel>> profiles;
+
+  @override
+  void initState() {
+    super.initState();
+    print('drawer initstaet');
+    profiles = ProfileRepository().getAllProfiles();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +64,52 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
-            onTap: () => Navigator.pushNamed(context, '/'),
+            onTap: () => Navigator.pushReplacementNamed(context, '/'),
           ),
-          ...profiles.map((profile) {
-            return ListTile(
-              leading: const Icon(Icons.person),
-              title: Text(profile['nickname']),
-              onTap: () {
-                Navigator.pushNamed(context, '/profile', arguments: profile);
-              },
-            );
-          }),
+          ExpansionTile(
+            leading: const Icon(Icons.people),
+            title: const Text('Profiles'),
+            children: [
+              FutureBuilder<List<ProfileModel>>(
+                future: profiles,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return ListTile(
+                      title: Text("Error: ${snapshot.error}"),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const ListTile(
+                      title: Text("No profiles available"),
+                    );
+                  } else {
+                    return Column(
+                      children: snapshot.data!.map((profile) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: ListTile(
+                            leading: const Icon(Icons.person),
+                            title: Text(profile.lastName),
+                            onTap: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/profile',
+                                arguments: {
+                                  'profile': profile,
+                                  'profiles': profiles,
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );

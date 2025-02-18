@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:profile/buttons/profile_button.dart';
+import 'package:profile/custom_widgets/primary_button.dart';
 import 'package:profile/custom_appbar.dart';
-import 'package:profile/profiles.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +17,10 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ...profiles.map((profile) {
-              //   return ProfileButton(
-              //     onPressed: () {
-              //       Navigator.pushNamed(context, '/profile',
-              //           arguments: profile);
-              //     },
-              //     text: profile['nickname'],
-              //   );
-              // })
+              PrimaryButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, '/create_profile'),
+                  text: 'Create Profile'),
             ],
           ),
         ),
